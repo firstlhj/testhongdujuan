@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../../../static/css/swiper.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="../../../static/js/swiper.js"></script>
+    <style type="text/css">
+        /*-----------轮播图-------------*/
+
+        .swiper-container {
+            clear: both;
+            width: 600px;
+            height:600px;
+            min-height: 100px;
+            position: relative;
+
+            top: 0;
+        }
+
+        .swiper-slide {
+            /*margin-top: 67px;*/
+        }
+        .swiper-slide img {
+
+            /*width: 100%;*/
+            /*padding-bottom:66.67%;*/
+            /*图片随DIV大小而改变*/
+            max-width:500px;
+            　　myimg:expression(onload=function(){
+　　this.style.width=(this.offsetWidth > 500)?"500px":"auto"});
+            max-height:600px;
+            　　myimg:expression(onload=function(){
+　　this.style.width=(this.offsetWidth > 600)?"600px":"auto"});
+            /*margin-top: 67px;*/
+            /*图片未知大小都水平垂直居中*/
+            position: absolute;
+            margin: auto;
+            top: -9999px;
+            right: -9999px;
+            bottom: -9999px;
+            left: -9999px;
+        }
+        /*包裹自定义分页器的div的位置等CSS样式*/
+        .swiper-pagination-custom {
+            bottom: 10px;
+            left: 0;
+            width: 100%;
+        }
+        /*自定义分页器的样式*/
+        .swiper-pagination-customs {
+            width: 12px;
+            height: 2px;
+            display: inline-block;
+            background: #000;
+            opacity: .3;
+            margin: 0 5px;
+        }
+        /*自定义分页器激活时的样式表现*/
+        .swiper-pagination-customs-active {
+            opacity: 1;
+            background-color: #e63737;
+        }
+
+
+    </style>
+</head>
+<body>
+<div>
+    <input id="id" type="button" value="1" >
+    <input type="button" id="btn">提交</input></div>
+<!------------轮播图------------->
+<div class="swiper-container" id="001">
+    <div class="swiper-wrapper"></div>
+    <!-- 如果需要分页器 -->
+    <div class="swiper-pagination"></div>
+    <!-- 如果需要导航按钮 -->
+    <div class="swiper-button-prev"></div>
+    <div class="swiper-button-next"></div>
+    <!-- 如果需要滚动条 -->
+    <div class="swiper-scrollbar"></div>
+
+</div>
+<script type="text/javascript">
+    $(function(){
+        $('#btn').click(function () {
+
+            //获取图片编号
+            //var id = $('#id').val();//这种也可以
+            var id = document.getElementById("id").value;
+
+            if (!id) {
+                alert("用户名必填");
+                $('#id').focus();
+                return;
+
+            }
+
+
+            $.ajax({
+                type: "POST",
+                url: "http://localhost:8010/file/findPictures",
+                dataType: "json",
+                async: "false",
+                data: {"masterId": id},
+            }).done(function (result) {
+
+                // bannerHtml+='<div class="swiper-slide"><a href="'+result[i].filePath+'"><img src="'+result[i].banner_image+'"></a></div>';
+
+                console.log(result)
+                if (result.data){
+                    for(var i=0;i<result.data.length;i++){
+                        var bannerHtml ='<div class="swiper-slide"><img src="'+result.data[i].filePath+'"></a></div>';
+                        console.log(bannerHtml)
+                        $('.swiper-wrapper').append(bannerHtml)
+                    }
+                    //$(".swiper-wrapper").html(bannerHtml);
+                    var mySwiper = new Swiper('.swiper-container',{
+                        autoplay:true,
+                        autoplay: {
+                            disableOnInteraction: false //手动滑动后可以自动滑动
+                        },
+                        speed:1000,//速度
+                        direction:'horizontal',//滑动的方向horizontal水平或者vertical垂直
+                        //direction: 'vertical', // 垂直切换选项
+                        // 如果需要分页器
+                        pagination: {
+                            el: '.swiper-pagination',
+                        },
+
+                        // 如果需要前进后退按钮
+                        navigation: {
+                            nextEl: '.swiper-button-next',
+                            prevEl: '.swiper-button-prev',
+                        },
+
+                        // 如果需要滚动条
+                        scrollbar: {
+                            el: '.swiper-scrollbar',
+                        },
+                        loop: true, // 循环模式选项
+                        grabCursor:true,//设置为true时，鼠标覆盖Swiper时指针会变成手掌形状，拖动时指针会变成抓手形状。
+                        paginationType: 'custom', //这里分页器类型必须设置为custom,即采用用户自定义配置
+                        paginationCustomRender: function(swiper, current, total) {
+                            var customPaginationHtml = "";
+                            for(var i = 0; i < total; i++) {
+                                //判断哪个分页器此刻应该被激活
+                                if(i == (current - 1)) {
+                                    customPaginationHtml += '<span class="swiper-pagination-customs swiper-pagination-customs-active"></span>';
+                                } else {
+                                    customPaginationHtml += '<span class="swiper-pagination-customs"></span>';
+                                }
+                            }
+                            return customPaginationHtml;
+                        }
+
+
+                    });
+                }
+
+            });
+        });
+    });
+
+
+</script>
+
+</body>
+<
+
+</html>

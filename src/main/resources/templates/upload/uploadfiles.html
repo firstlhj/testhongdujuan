@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ajax 多文件上传</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
+<!--    <link rel="stylesheet" type="text/css" href="/js/jquery-easyui-1.4.3/themes/default/easyui.css">-->
+<!--    <link rel="stylesheet" type="text/css" href="/js/jquery-easyui-1.4.3/themes/icon.css">-->
+    <style type="text/css">
+        .imageDiv {
+            display:inline-block;
+            width:160px;
+            height:130px;
+            -webkit-box-sizing:border-box;
+            -moz-box-sizing:border-box;
+            box-sizing:border-box;
+            border:1px dashed darkgray;
+            background:#f8f8f8;
+            position:relative;
+            overflow:hidden;
+            margin:10px
+        }
+        .cover {
+            position:absolute;
+            z-index:1;
+            top:0;
+            left:0;
+            width:160px;
+            height:130px;
+            background-color:rgba(0,0,0,.3);
+            display:none;
+            line-height:125px;
+            text-align:center;
+            cursor:pointer;
+        }
+        .cover .delbtn {
+            color:red;
+            font-size:20px;
+        }
+        .imageDiv:hover .cover {
+            display:block;
+        }
+        .addImages {
+            display:inline-block;
+            width:160px;
+            height:130px;
+            -webkit-box-sizing:border-box;
+            -moz-box-sizing:border-box;
+            box-sizing:border-box;
+            border:1px dashed darkgray;
+            background:#f8f8f8;
+            position:relative;
+            overflow:hidden;
+            margin:10px;
+        }
+        .text-detail {
+            margin-top:40px;
+            text-align:center;
+        }
+        .text-detail span {
+            font-size:40px;
+        }
+    .items{
+        /*align: center;*/
+
+        /*margin-left: 0px;*/
+        /*margin-top:-38px;*/
+    }
+    .item{
+        /*width: 100px;*/
+        /*height: 100px;*/
+        /*margin-top:100px;*/
+        /*cursor: pointer;*/
+        /*position: relative;*/
+        /*background: url("http://img95.699pic.com/xsj/0f/xs/m7.jpg") no-repeat;*/
+        /*-webkit-background-size: cover;*/
+        /*background-size: cover;*/
+    }
+    .item .file{
+        position: absolute;
+        right: 0;
+        top:0;
+    .   width: 100%;
+        height: 100%;
+        opacity: 0;
+        cursor: pointer;
+    }
+    .Up{
+        /*float:left; height:20px;width:60px;font-size:15px;margin-top:20px;*/
+        /*color: #c0bbc0;background: #3b8cc0;*/
+        width: 100px;
+        height: 30px;
+        background-color: skyblue;
+        color: white;
+        margin-top:90px;
+        margin-right: 80px;
+        border: none;
+        border-radius: 50px;
+
+    }
+    /*这是一个用做回显的盒子的样式*/
+
+    .pic{
+        width: 100px;
+        height: 100px;
+    }
+    .pic img {
+        width: 100%;
+        height: 100%;
+    }
+</style>
+</head>
+<body>
+<div class="items">
+<div class="item">
+
+<!--    <span>上传附件</span>-->
+    <div class="picDiv">
+        <input class="file"type="file" name="files"   multiple="multiple" >
+        <div class="text-detail">
+            <span>+</span>
+            <p>点击</p>
+        </div>
+   </div>
+
+
+
+</div>
+    <button class="Up" type="button"  id="bbt" >上传</button>
+    <div class="msg" style="display: none;"></div>
+<!--<div class="item">-->
+<!--&lt;!&ndash;    <span>上传附件</span>&ndash;&gt;-->
+
+<!--    <input  class="imgs" type="file" name="files" class="form-control" id="file2" multiple="multiple" >-->
+<!--    <input class="Up"type="button" value="技能提交" onclick="btn2()">-->
+
+<!--</div>-->
+<!--<div class="item">-->
+<!--&lt;!&ndash;    <span>上传附件</span>&ndash;&gt;-->
+<!--    <input  class="imgs"type="file" name="files" value="上传" class="form-control" id="file3" multiple="multiple" >-->
+<!--    <input class="Up"type="button" value="学习提交" onclick="btn3()">-->
+
+<!--</div>-->
+</div>
+</body>
+
+<script src="../../../static/js/jquery.min.js"></script>
+<!--<script src="js/jquery.dataTables.min.js"></script>-->
+<script src="../../../static/js/jquery.easyui.min.js"></script>
+<script>
+    // function btn1() {
+    //     var bid = 1;
+    //     var btn = ".file";
+    //     upload(1,btn)
+    // }
+    // function btn2() {
+    //     var bid = 2;
+    //     var btn = "#file2";
+    //     upload(2,btn)
+    // }
+    // function btn3() {
+    //     var bid = 3;
+    //     var btn = "#file3";
+    //     upload(3,btn)
+    // }
+
+  // function upload(bid,btn){
+    var btn = ".file";
+    var formData = new FormData();
+    var formData2 = new FormData();
+       $(btn).change(function() {
+           var bid = 1;
+
+           //图片上传预览功能
+           var userAgent = navigator.userAgent; //用于判断浏览器类型
+           //添加附件start
+
+           // for(var i=0;i<$(btn)[0].files.length;i++) {  //循环获取上传个文件
+           //     formData.append("files", $(btn)[0].files[i]);
+           // }
+           formData.append("bid",bid);//此处可以添加一个参数和图片一起上传
+           //获取选择图片的对象
+           var docObj = $(btn)[0];
+           var picDiv = $(btn).parents(".picDiv");
+           //得到所有的图片文件
+           var fileList = docObj.files;
+           //将图片数据放到formData中传递后台
+           if($(btn)[0].files.length==1){
+               formData.append("file",docObj.files[0]);
+               formData2.append("file",docObj.files[0]);
+           }else{
+               for(var i=0; i<$(btn)[0].files.length;i++){
+                   formData.append("file",$(btn)[0].files[i]);
+                   formData2.append("file",$(btn)[0].files[i]);
+               }
+           }
+           //循环遍历
+           for (var i = 0; i < fileList.length; i++) {
+               //动态添加html元素
+               var picHtml = "<div class='imageDiv' nm='"+fileList[i].name+"'> <img id='img" + fileList[i].name + "' /> <div class='cover'><i class='delbtn'>删除</i></div></div>";
+               console.log(picHtml);
+               picDiv.prepend(picHtml);
+               //获取图片imgi的对象
+               var imgObjPreview = document.getElementById("img" + fileList[i].name);
+               if (fileList && fileList[i]) {
+                   //图片属性
+                   imgObjPreview.style.display = 'block';
+                   imgObjPreview.style.width = '160px';
+                   imgObjPreview.style.height = '130px';
+                   //imgObjPreview.src = docObj.files[0].getAsDataURL();
+                   //火狐7以上版本不能用上面的getAsDataURL()方式获取，需要以下方式
+                   if (userAgent.indexOf('MSIE') == -1) {
+                       //IE以外浏览器
+                       imgObjPreview.src = window.URL.createObjectURL(docObj.files[i]); //获取上传图片文件的物理路径;
+                       console.log(imgObjPreview.src);
+                       // var msgHtml = '<input type="file" id="fileInput" multiple/>';
+                   } else {
+                       //IE浏览器
+                       if (docObj.value.indexOf(",") != -1) {
+                           var srcArr = docObj.value.split(",");
+                           imgObjPreview.src = srcArr[i];
+                       } else {
+                           imgObjPreview.src = docObj.value;
+                       }
+                   }
+               }
+           }
+           /*删除功能*/
+           $(".delbtn").click(function() {
+               if(formData.getAll("file").length==0){
+                   formData=formData2;
+               }else{
+                   formData2.delete("file");
+                   for(var i=0;i<formData.getAll("file").length;i++){
+                       if(formData.getAll("file")[i].name==$(this).parents(".imageDiv").attr("nm")){
+
+                       }else{
+                           formData2.append("file",formData.getAll("file")[i]);
+                       }
+                   }
+               }
+               formData.delete("file");
+               for(var i=0;i<formData2.getAll("file").length;i++){
+                   formData.append("file",formData2.getAll("file")[i]);
+               }
+               var _this = $(this);
+               _this.parents(".imageDiv").remove();
+           });
+       });
+
+
+
+    $("#bbt").click(function(){
+        $.ajax({
+            "url": "/file/MultiPictareaddData",
+            "data" : formData,
+            "dataType":"json",
+            "type": "post",
+            "contentType" : false, //上传文件一定要是false
+            "processData":false,
+            "success" : function(obj) {
+                if (obj.status == 200) {
+                    alert("上传成功！");
+                }else{
+                    alert(obj.msg);
+                }
+            }
+        });
+        //添加附件end
+        // }
+    })
+
+
+
+
+</script>
+<!--<script src="https://code.jquery.com/jquery.min.js"></script>-->
+<!--<script>-->
+<!--    $(document).ready(function(){-->
+<!--        //为外面的盒子绑定一个点击事件-->
+<!--        $(".item").click(function(){-->
+<!--            /*-->
+<!--            1、先获取input标签-->
+<!--            2、给input标签绑定change事件-->
+<!--            3、把图片回显-->
+<!--             */-->
+<!--//            1、先回去input标签-->
+<!--            var $input = $("#file");-->
+<!--            console.log($input)-->
+<!--//            2、给input标签绑定change事件-->
+<!--            $input.on("change" , function(){-->
+<!--                console.log(this)-->
+<!--                //补充说明：因为我们给input标签设置multiple属性，因此一次可以上传多个文件-->
+<!--                //获取选择图片的个数-->
+<!--                var files = this.files;-->
+<!--                var length = files.length;-->
+<!--                console.log("选择了"+length+"张图片");-->
+<!--                //3、回显-->
+<!--                $.each(files,function(key,value){-->
+<!--                    //每次都只会遍历一个图片数据-->
+<!--                    var div = document.createElement("div"),-->
+<!--                        img = document.createElement("img");-->
+<!--                    div.className = "pic";-->
+
+<!--                    var fr = new FileReader();-->
+<!--                    fr.onload = function(){-->
+<!--                        img.src=this.result;-->
+<!--                        div.append(img);-->
+<!--                        $(".returns").append(div);-->
+<!--                        // document.body.appendChild(div);-->
+<!--                    }-->
+<!--                    fr.readAsDataURL(value);-->
+<!--                })-->
+
+<!--            })-->
+
+<!--            //4、我们把当前input标签的id属性remove-->
+<!--            $input.removeAttr("id");-->
+<!--            //我们做个标记，再class中再添加一个类名就叫test-->
+<!--            var newInput = '<input class="uploadImg test" type="file" name="file" multiple id="file">';-->
+<!--            $(this).append($(newInput));-->
+
+<!--        })-->
+
+<!--    })-->
+
+<!--</script>-->
+</html>

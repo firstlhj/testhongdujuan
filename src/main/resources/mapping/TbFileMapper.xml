@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lzs.dao.TbFileMapper">
+  <resultMap id="BaseResultMap" type="com.lzs.entity.TbFile">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="file_abs_path" jdbcType="VARCHAR" property="fileAbsPath" />
+    <result column="master_id" jdbcType="VARCHAR" property="masterId" />
+    <result column="Resourcetype" jdbcType="VARCHAR" property="resourcetype" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, file_abs_path, master_id, Resourcetype
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_file
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_file
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.lzs.entity.TbFile">
+    insert into tb_file (id, file_abs_path, master_id, 
+      Resourcetype)
+    values (#{id,jdbcType=INTEGER}, #{fileAbsPath,jdbcType=VARCHAR}, #{masterId,jdbcType=VARCHAR}, 
+      #{resourcetype,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lzs.entity.TbFile">
+    insert into tb_file
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="fileAbsPath != null">
+        file_abs_path,
+      </if>
+      <if test="masterId != null">
+        master_id,
+      </if>
+      <if test="resourcetype != null">
+        Resourcetype,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="fileAbsPath != null">
+        #{fileAbsPath,jdbcType=VARCHAR},
+      </if>
+      <if test="masterId != null">
+        #{masterId,jdbcType=VARCHAR},
+      </if>
+      <if test="resourcetype != null">
+        #{resourcetype,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lzs.entity.TbFile">
+    update tb_file
+    <set>
+      <if test="fileAbsPath != null">
+        file_abs_path = #{fileAbsPath,jdbcType=VARCHAR},
+      </if>
+      <if test="masterId != null">
+        master_id = #{masterId,jdbcType=VARCHAR},
+      </if>
+      <if test="resourcetype != null">
+        Resourcetype = #{resourcetype,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lzs.entity.TbFile">
+    update tb_file
+    set file_abs_path = #{fileAbsPath,jdbcType=VARCHAR},
+      master_id = #{masterId,jdbcType=VARCHAR},
+      Resourcetype = #{resourcetype,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <!--  根据用户id查询所属的图片-->
+  <select id="selectListByMasterId"  parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_file where master_id=#{id}
+  </select>
+  <!--  根据用户id和图片类型查询所属的图片-->
+  <select id="selectListByMasterIdAndRestype"  parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_file where master_id=#{id} and ResourceType=#{Restype}
+  </select>
+</mapper>

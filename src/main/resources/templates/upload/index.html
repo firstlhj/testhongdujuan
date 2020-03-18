@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html leng="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>多图上传</title>
+  <link rel="stylesheet" href="../../static/css/uploadPictures.css">
+</head>
+<body>
+
+  <div id="yauoi-upload"></div>
+
+  <button class="yauoi-submit">上传</button>
+
+  <div id="yauoi-upload-life"></div>
+
+  <button class="yauoi-submit-life">上传</button>
+
+  <div id="yauoi-upload-study"></div>
+
+  <button class="yauoi-submit-study">上传</button>
+
+
+  <script type="text/javascript" src="../../static/js/uploadPictures.js"></script>
+
+  <script type="text/javascript">
+    document.documentElement.style.fontSize =
+      document.documentElement.clientWidth * 0.1 + 'px';
+
+    var options = {
+      path: '/file/MultiPictareaddData',
+      success: function (res) {
+        console.log(res)
+        alert("上传成功");
+        window.location.href='/fileupload'
+      },
+      fail: function (err) {
+        console.log(err)
+        alert("上传失败");
+        window.location.href='/fileupload'
+      }
+    };
+
+    var upload = imagesUpload('#yauoi-upload', options);
+    document.getElementsByClassName('yauoi-submit')[0].onclick = function (e) {
+      upload();
+    }
+
+  </script>
+</body>
+</html>

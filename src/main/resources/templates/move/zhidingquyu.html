@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>将页面图片图片拖放到页面某区域</title>
+
+    <style>
+        .box{
+            width: 400px;
+            height:400px;
+            float: left;
+        }
+        #box1{
+            background-color: #cccccc;
+        }
+        #box2{
+            background-color: pink;
+        }
+        img{
+            width: 40px;
+            height:40px;
+        }
+    </style>
+</head>
+
+<script language="JavaScript" src="js/gf.js"></script>
+<body>
+<div id="box1" class="box"></div><!--目标拖动进入的区域-->
+<div id="box2" class="box"></div><!--目标拖动进入的区域-->
+<img src="img/q.jpg" id="img1"><!--拖动图片-->
+
+<div id="msg" class="box"></div><!--输出，打印拖动图片时各种参数-->
+
+
+
+</body>
+<script>
+    var box1,box2,msg,img1;
+
+
+
+    window.οnlοad=function(){
+        box1=document.getElementById("box1");
+        box2=document.getElementById("box2");
+        msg=document.getElementById("msg");
+        img1=document.getElementById("img1");
+        img2=document.getElementById("img2");
+        //box1.οndragenter=function(e){/*ondragenter 事件在拖动的元素或选择的文本**进入**到有效的放置目标时触发,即拖进box1中触发*/
+        //getObj(e);
+        //}
+        img1.οndragstart=function(e){/*ondragstart 事件在用户开始拖动元素或选择的文本时触发。*/
+            e.dataTransfer.setData("imgID","img1");/*ondragstart 事件在用户开始拖动元素或选择的文本时触发*/
+        }
+        box1.οndragοver=function(e){/*ondragover事件在可拖动元素或选取的文本正在拖动**到**放置目标时触发*/
+            e.preventDefault();/*阻止冒泡*/
+        }
+        box1.οndrοp=gg;/*事件在**可拖动元素**或选取的文本放置在目标区域时触发*/
+
+
+        box2.οndragοver=function(e){/*ondragover事件在可拖动元素或选取的文本正在拖动**到**放置目标时触发*/
+            e.preventDefault();/*阻止冒泡*/
+        }
+        box2.οndrοp=gg;/*事件在**可拖动元素**或选取的文本放置在目标区域时触发*/
+    }
+    function gg(e){
+        e.preventDefault();
+        getObj(e.dataTransfer);
+        var img=document.getElementById(e.dataTransfer.getData("imgID"));
+        //box1.appendChild(img);
+        e.target.appendChild(img);
+    }
+    function getObj(e){/*打印拖动时的各种参数*/
+        var s="";
+        for(var k in e){
+            s+=k+":"+e[k]+"</br>";
+        }
+        msg.innerHTML=s;
+    }
+</script>
+</html>

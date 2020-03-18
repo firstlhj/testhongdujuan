@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <style type="text/css">
+        .imgcss{
+
+            width:100px;height:100px;border:1px solid #f0f0f0;
+        }
+        .imgcss:hover i{
+            color:#CCCCFF;
+            background-color:#f0f0f0;
+        }
+        .imgcss i{
+        #img_a{
+            float:left;margin-top:40px;font-weight:bold;color:#C0C0C0;
+        }     font-size:100px;width-size:2px;color: #4542f0;
+        }
+        /*图片*/
+
+        #Up{
+            /*float:left; height:20px;width:60px;font-size:15px;margin-top:20px;*/
+            /*color: #c0bbc0;background: #3b8cc0;*/
+            width: 100px;
+            height: 30px;
+            background-color: skyblue;
+            color: white;
+            margin-top:17px;
+            margin-right: 80px;
+            border: none;
+            border-radius: 50px;
+
+        }
+        #add{
+            /*float:left; height:20px;width:60px;font-size:15px;margin-top:20px;*/
+            /*color: #c0bbc0;background: #3b8cc0;*/
+           /* width: 100px;*/
+           /*height: 60px;*/
+          //  background-color: skyblue;
+            color: #c7f5f5;
+            margin-top:-8px;
+            margin-right: 3px;
+            /*border: none;*/
+            border-radius: 10px;
+
+            font-weight: lighter;
+            font-size:77px;
+           text-align:center;
+            /*align:center;*/
+
+
+
+
+        }
+    </style>
+</head>
+<body>
+<form action="/file/upload" enctype="multipart/form-data" method="post" >
+    <img src="/images/20081211112222360_2.jpg" id="img" style="width:120px;height:110px;float:left;"/>
+    <a id="img_a">&nbsp;在框里选择你的图片--〉</a>
+    <input id="files" name="file" onchange="c()" type="file" style="display:none;"><br>
+    <div id="imgcss"class="imgcss"style="float:left;margin-top:-20px;"><i class="icon-plus" id="i"></i><div id="add" >+</div></div>
+    <button id="Up" type="submit" value="确定" class="button"style="">确定</button></form>
+</body>
+<script>
+    //这个方法是隐藏的文件上传控件点击方
+    function c () {
+        var r= new FileReader();
+        var f=$("#files")[0].files[0];
+        r.readAsDataURL(f);
+        r.onload=function (e) {
+            $("#i").css('display','none');
+            $("#imgcss").css("background-image","url("+this.result+")");
+            $("#imgcss").removeClass("imgcss");
+            $("#imgcss").css({"background-size":"cover","width":"100px","height":"100px"});
+        };
+    }
+
+    $(document).ready(function() {
+        $("#imgcss").click(function(){
+            $("#files").click();
+        });});
+</script>
+</html>

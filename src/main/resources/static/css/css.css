@@ -1,0 +1,39 @@
+/*-----------轮播图-------------*/
+
+.swiper-container {
+    clear: both;
+    width: 100%;
+    /*height: 370px;*/
+    min-height: 100px;
+    position: relative;
+    top: 0;
+}
+
+.swiper-slide {
+    /*margin-top: 67px;*/
+}
+
+.swiper-slide img {
+    width: 100%;
+    /*margin-top: 67px;*/
+}
+/*包裹自定义分页器的div的位置等CSS样式*/
+.swiper-pagination-custom {
+    bottom: 10px;
+    left: 0;
+    width: 100%;
+}
+/*自定义分页器的样式*/
+.swiper-pagination-customs {
+    width: 12px;
+    height: 2px;
+    display: inline-block;
+    background: #000;
+    opacity: .3;
+    margin: 0 5px;
+}
+/*自定义分页器激活时的样式表现*/
+.swiper-pagination-customs-active {
+    opacity: 1;
+    background-color: #e63737;
+}

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<a href=""><img id="i1" src="/file/findById" style="width: 1266px;height: 460px" alt=""></a>
+<script>
+    function foo()
+    {
+        //创建要轮播的图片列表，元素为图片地址
+        let imgList = ['https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583994227122&di=33102dda1ff1b0f1d67df314cbf67fb7&imgtype=0&src=http%3A%2F%2Fa0.att.hudong.com%2F78%2F52%2F01200000123847134434529793168.jpg','https://pesonalbio01.oss-cn-shenzhen.aliyuncs.com/001.jpg','https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583994227122&di=bdf5e0d44a801f741d59ffd7cdf09eda&imgtype=0&src=http%3A%2F%2Fa3.att.hudong.com%2F14%2F75%2F01300000164186121366756803686.jpg','\n' +
+        'https://pesonalbio01.oss-cn-shenzhen.aliyuncs.com/002.jpg'];
+        //找到要轮播图片的img标签,通过id寻找
+        let imgTable=document.getElementById('i1');
+        //获取当前img标签的src，
+        let img_src= imgTable.getAttribute('src');
+        //获取当前src在图片列表中的索引，如果该索引加一小于等于列表长度，即可索引加1，修改src播放下一张图片
+        let img_index = imgList.indexOf(img_src)+1;
+
+        if (img_index<imgList.length)
+        {
+            imgTable.setAttribute('src',imgList[img_index]);
+        }
+        else
+        {
+            imgTable.setAttribute('src',imgList[0])
+        }
+    }
+    setInterval(foo,2000)
+</script>
+</body>
+</html>

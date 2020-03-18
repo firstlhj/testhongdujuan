@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="wrapper" style="margin-top: 91px">
+    <div id="scroller">
+
+        <!--轮播-->
+        <div class="slideBannerSwrap">
+            <!--轮播图-->
+            <div style="position: relative;width: 100%;" id="slideBox">
+                <div class="swiper-container">
+                    <div class="swiper-wrapper" style="height: 180px">
+                        <!--动态生成轮播DOM-->
+                    </div>
+                    <div class="swiper-pagination"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/javascript" src="E:\WorkSpaceTedu\IDEASVN\personalbio01\src\main\resources\static\js\swiper-3.4.2.min.js"></script>
+<script type="text/javascript" src="E:\WorkSpaceTedu\IDEASVN\personalbio01\src\main\resources\static\js\jquery-1.11.3.js"></script>
+<script type="text/javascript">
+    function bannerShowMss(data){
+        var swiperWrapper = document.getElementsByClassName('swiper-wrapper')[0];
+        var url='/apishouye-slider-mss_'+data+'.html';
+        $.ajax({
+            url:url,
+            type:"get",
+            dataType:"json",
+            success:function(dataObject){
+                if(dataObject.state.state===1){
+
+                    var showImages = dataObject.data;
+                    for(var i=0;i<showImages.length;i++){
+                        var swiperSlide = document.createElement('div');
+                        swiperSlide.className = 'swiper-slide';
+                        var slideA = document.createElement('a');
+                        slideA.href=imgHref(showImages[i].link_num,showImages[i].link_type);
+                        slideA.className = 'slide-a';
+                        var bannerImg = document.createElement('img');
+                        bannerImg.className = 'bannerImg';
+                        swiperSlide.appendChild(slideA);
+                        slideA.appendChild(bannerImg);
+                        swiperWrapper.appendChild(swiperSlide);
+                    }
+                    var classA = document.getElementsByClassName('slide-a');
+                    var imgArray = document.getElementsByClassName('bannerImg');
+                    for(var i=0;i<imgArray.length;i++){
+                        imgArray[i].src = showImages[i].images;
+                    }
+                    var imgFirst = new Image();
+                    imgFirst.src = showImages[0].images;
+                    imgFirst.οnlοad=function(){
+                        const swiper = new Swiper('.swiper-container', {
+                            autoplay: 3000,
+                            speed: 500,
+                            pagination: '.swiper-pagination',
+                            loop: true,
+                            autoplayDisableOnInteraction: false
+                        });
+                    }
+                }else{
+                    $(".slideBannerSwrap").hide();
+                }
+            }
+        });
+    }
+</script>
+</html>

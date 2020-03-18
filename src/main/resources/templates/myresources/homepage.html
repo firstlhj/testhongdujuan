@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <style>
+        #header {
+            background-color:black;
+            color:white;
+            text-align:center;
+            padding:5px;
+        }
+        #nav {
+            line-height:30px;
+            background-color:#eeeeee;
+            height:300px;
+            width:100px;
+            float:left;
+            padding:5px;
+        }
+        #section {
+            width:350px;
+            float:left;
+            padding:10px;
+        }
+        #footer {
+            background-color:black;
+            color:white;
+            clear:both;
+            text-align:center;
+            padding:5px;
+        }
+        .btn{
+            /*float:left; height:20px;width:60px;font-size:15px;margin-top:20px;*/
+            /*color: #c0bbc0;background: #3b8cc0;*/
+            width: 80px;
+            height: 60px;
+            background-color: skyblue;
+            color: white;
+            margin-top:25px;
+            margin-right: 2px;
+            border: none;
+            border-radius: 60px;
+            align: center;
+        }
+        #btns{
+            text-align: center;
+        }
+    </style>
+</head>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<body>
+
+<div id="header">
+    <h1>Resume</h1>
+</div>
+
+<!--<div id="nav">-->
+<!--    London<br>-->
+<!--    Paris<br>-->
+<!--    Tokyo<br>-->
+<!--</div>-->
+<div id="btns">
+    <input type="button" class="btn" id="btn1" onclick="btn1()" value="上传"><br>
+    <input type="button" class="btn" id="btn2" onclick="btn2()" value="我的图片"><br>
+    <input type="button" class="btn" id="btn3" onclick="btn3()" value="我的简历"><br>
+</div>
+
+<div id="section">
+    <h2>简介</h2>
+    <p>
+        这是本人独立构思开发的一个简单0.1版本的应用，包含前端的页面渲染布局，以及和后端的数据交互，数据库的设计制表，测试，部署到阿里云服务器
+
+    </p>
+    <p>
+       所用的技术：阿里云oos、IDEA、JDK1.8、MAVEN、SSM、redis、swagger2.0、ajax、swiper、html、css、jquery、themlyfe
+
+    </p>
+</div>
+
+<div id="footer">
+   首   页
+</div>
+
+</body>
+<script>
+    function btn1() {
+        window.location.href="/fileupload"
+    }
+    function btn2() {
+        window.location.href="/ajax"
+    }
+    function btn3() {
+        window.location.href="/jianli"
+    }
+</script>
+</html>
