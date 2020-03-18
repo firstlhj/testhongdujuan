@@ -107,11 +107,11 @@ public Map<String, Object> MultiPictareaddData(MultipartFile[] file, @RequestPar
             saveFile(request, filex,bid);
         }
         map.put("success","ok");
-        map.put("msg","上传成功");
+       // map.put("msg","上传成功");
 
     }else{
         System.out.println(file.length+"：长度就是零");
-        map.put("msg","上传失败");
+       // map.put("msg","上传失败");
 
     }
     return map;

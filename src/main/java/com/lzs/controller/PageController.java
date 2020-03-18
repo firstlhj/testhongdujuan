@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/")
 @CrossOrigin
 public class PageController {
-    @RequestMapping("/ajax")
-    public String ajax(){
-        return "pages/ajax";
-    }
+//    @RequestMapping("/ajax")
+//    public String ajax(){
+//        return "pages/ajax";
+//    }
     @RequestMapping("/index")
     public String index()
     {
@@ -33,13 +33,13 @@ public class PageController {
     @RequestMapping("/jianli")
     public String resouces()
     {
-        return "/myresources/jianli2";
+        return "/myresources/myresume";
     }
     //restful接口风格
     @RequestMapping("/{homepage}")
     public String home(@PathVariable String homepage)
     {
-        return "/myresources/"+homepage;
+        return "/nomal/"+homepage;
     }
    @RequestMapping("/uploadfiles")
     public String uploadfiles(){

@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <!--    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">-->
+    <!--    <link rel="stylesheet" type="text/css" href="/js/jquery-easyui-1.4.3/themes/default/easyui.css">-->
+    <!--    <link rel="stylesheet" type="text/css" href="/js/jquery-easyui-1.4.3/themes/icon.css">-->
+    <style type="text/css">
+        .imageDiv {
+            display: inline-block;
+            width: 160px;
+            height: 130px;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            border: 1px dashed darkgray;
+            background: #f8f8f8;
+            position: relative;
+            overflow: hidden;
+            margin: 10px
+        }
+
+        .cover {
+            position: absolute;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            width: 160px;
+            height: 130px;
+            background-color: rgba(0, 0, 0, .3);
+            display: none;
+            line-height: 125px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .cover .delbtn {
+            color: red;
+            font-size: 20px;
+        }
+
+        .imageDiv:hover .cover {
+            display: block;
+        }
+
+        .addImages {
+            display: inline-block;
+            width: 160px;
+            height: 130px;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            border: 1px dashed darkgray;
+            background: #f8f8f8;
+            position: relative;
+            overflow: hidden;
+            margin: 10px;
+        }
+
+        .text-detail {
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        .text-detail span {
+            font-size: 40px;
+        }
+
+        .file {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 160px;
+            height: 130px;
+            opacity: 0;
+        }
+
+        .Up {
+            /*float:left; height:20px;width:60px;font-size:15px;margin-top:20px;*/
+            /*color: #c0bbc0;background: #3b8cc0;*/
+            width: 100px;
+            height: 30px;
+            background-color: skyblue;
+            color: white;
+            margin-top: 90px;
+            margin-right: 80px;
+            border: none;
+            border-radius: 50px;
+
+        }
+
+    </style>
+
+</head>
+<body>
+
+<div id="Pic_pass">
+    <p style="font-size: 20px;font-weight: bold;">请上传多张照片 </p>
+    <p><span style="color: red">注：每张照片大写不可超过4M，且最多可以传十张</span></p>
+    <!--        单选框，name值要相同-->
+    <div id="phototype">类型:
+        <label><input id="life" type="radio" name="photos" value="生活">生活</label>
+        <label><input id="study" type="radio" name="photos" value="学习">学习</label>
+        <label><input id="posibility" type="radio" name="photos" value="技能">技能</label>
+    </div>
+    <div class="picDiv">
+        <div class="addImages">
+            <input type="file" class="file" id="file" multiple="multiple"
+                   accept="image/png, image/jpeg, image/gif, image/jpg">
+            <div class="text-detail">
+                <span>+</span>
+                <p>点击</p>
+            </div>
+        </div>
+
+    </div>
+</div>
+<button class="Up" type="button" id="bbt">上传</button>
+<div class="msg" style="display: none;"></div>
+<!--<script src="../../../static/js/jquery.min.js"></script>-->
+<script>
+    // function btn1() {
+    //
+    //     var bid = 1;
+    //     sumbit(bid)
+    //     //location.reload()
+    //     // //获取选择图片的对象
+    //     var docObj = $(".file")[0];
+    //     //得到所有的图片文件
+    //     var fileList = docObj.files;
+    //     // if(fileList!=null){
+    //     //     $(".addImages").html("")
+    //     //     //location.reload()
+    //     //     fileList.remove()
+    //     //     alert("请先选择要上传的图片")
+    //     //
+    //     // }
+    // }
+    // function btn2() {
+    //     // location.reload()
+    //
+    //     var bid = 2;
+    //     // var data = sumbit(bid);
+    //     // // //获取选择图片的对象
+    //     // var docObj = $(".file")[0];
+    //     // //得到所有的图片文件
+    //     // var fileList = docObj.files;
+    //     // if(fileList!=null){
+    //     //     // location.reload()
+    //     //     $(".addImages").html("")
+    //     //     fileList.remove()
+    //     //     alert("请先选择要上传的图片")
+    //     //     // fileList ==null;
+    //     // }
+    //
+    //
+    // }
+    // function btn3() {
+    //
+    //     var bid = 3;
+    //     // sumbit(bid)
+    // //获取选择图片的对象
+    // var docObj = $(".file")[0];
+    // //得到所有的图片文件
+    // var fileList = docObj.files;
+    // if(fileList!=null){
+    //     //location.reload()
+    //     fileList.remove()
+    //     $(".addImages").html("")
+    //     alert("请先选择要上传的图片")
+    //     // fileList ==null;
+    // }
+    // location.reload()
+    // }
+
+
+    // var files1= $("#file")[0].files;
+    // if(files1==null){
+    //     alert("没有图片")
+    // }
+
+    $("#bbt").click(function () {
+        var bid;
+        //获取单选框的值
+        $photosGet = $("input[name='photos']:checked").val();
+
+        if ($photosGet == "生活") {
+            bid = 1;
+        }
+        if ($photosGet == "学习") {
+            bid = 2;
+        }
+        if ($photosGet == "技能") {
+            bid = 3;
+        }
+        // if(bid!=1||bid!=2||bid!=3){
+        //     alert("请选择图片类型")
+        // }
+
+
+        var formData = new FormData();
+        var formData2 = new FormData();
+
+        for (var i = 0; i < $("#file")[0].files.length; i++) {  //循环获取上传个文件
+            formData.append("file", $("#file")[0].files[i]);
+            formData2.append("file", $("#file")[0].files[i]);
+        }
+        //带参数
+        formData.append("bid", bid);
+        $.ajax({
+            type: 'post',
+            dataType: 'json',
+            data: formData,
+            cache: false, //上传文件不需要缓存
+            url: '/file/MultiPictareaddData',
+            processData: false, // 告诉jQuery不要去处理发送的数据
+            contentType: false, // 告诉jQuery不要去设置Content-Type请求头
+            success: function (data) {
+                if (data.success == "ok") {
+                    alert('图片上传成功！');
+                    $(".imageDiv").remove();
+                     var files =document.getElementById("file");
+                      files.value ="";
+                } else {
+                    alert('图片上传失败！');
+                    $(".imageDiv").remove();
+
+                }
+            }
+
+        });
+
+    })
+
+
+</script>
+
+<script>
+    $("#file").change(function () {
+
+        var userAgent = navigator.userAgent; //用于判断浏览器类型
+        // //获取选择图片的对象
+        var docObj = $("#file")[0];
+        var picDiv = $("#file").parents(".picDiv");
+        var formData = new FormData();
+        var formData2 = new FormData();
+        for (var i = 0; i < $("#file")[0].files.length; i++) {  //循环获取上传个文件
+             formData.append("file", $("#file")[0].files[i]);
+            formData2.append("file", $("#file")[0].files[i]);
+        }
+        //得到所有的图片文件
+        var fileList = docObj.files;
+        //循环遍历
+        for (var i = 0; i < fileList.length; i++) {
+            //动态添加html元素
+            var picHtml = "<div class='imageDiv' nm='" + fileList[i].name + "'> <img id='img" + fileList[i].name + "' /> <div class='cover'><i class='delbtn'>删除</i></div></div>";
+            console.log(picHtml);
+            picDiv.prepend(picHtml);
+            //获取图片imgi的对象
+            var imgObjPreview = document.getElementById("img" + fileList[i].name);
+            if (fileList && fileList[i]) {
+                //图片属性
+                imgObjPreview.style.display = 'block';
+                imgObjPreview.style.width = '160px';
+                imgObjPreview.style.height = '130px';
+                //imgObjPreview.src = docObj.files[0].getAsDataURL();
+                //火狐7以上版本不能用上面的getAsDataURL()方式获取，需要以下方式
+                if (userAgent.indexOf('MSIE') == -1) {
+                    //IE以外浏览器
+                    imgObjPreview.src = window.URL.createObjectURL(docObj.files[i]); //获取上传图片文件的物理路径;
+                    console.log(imgObjPreview.src);
+                    // var msgHtml = '<input type="file" id="fileInput" multiple/>';
+                } else {
+                    //IE浏览器
+                    if (docObj.value.indexOf(",") != -1) {
+                        var srcArr = docObj.value.split(",");
+                        imgObjPreview.src = srcArr[i];
+                    } else {
+                        imgObjPreview.src = docObj.value;
+                    }
+                }
+            }
+        }
+        /*删除功能*/
+        $(".delbtn").click(function () {
+            if (formData.getAll("file").length == 0) {
+                formData = formData2;
+            } else {
+                formData2.delete("file");
+                for (var i = 0; i < formData.getAll("file").length; i++) {
+                    if (formData.getAll("file")[i].name == $(this).parents(".imageDiv").attr("nm")) {
+
+                    } else {
+                        formData2.append("file", formData.getAll("file")[i]);
+                    }
+                }
+            }
+            formData.delete("file");
+            for (var i = 0; i < formData2.getAll("file").length; i++) {
+                formData.append("file", formData2.getAll("file")[i]);
+            }
+            var _this = $(this);
+            _this.parents(".imageDiv").remove();
+        });
+    })
+
+
+
+</script>
+</body>
+</html>
