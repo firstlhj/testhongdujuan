@@ -27,6 +27,6 @@ private TbFileService tbFileService;
     public void findpath() {
     }
     @Test void findPicture(){
-       System.out.println(tbFileService.findPicture("1","1"));
+       System.out.println(tbFileService.findPicture("1","1","img"));
     }
 }

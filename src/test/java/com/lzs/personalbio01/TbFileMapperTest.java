@@ -21,7 +21,7 @@ private TbFileMapper tbFileMapper;
 
     @Test
     public void selectByPrimaryKey() {
-        TbFile tbFile = tbFileMapper.selectByPrimaryKey(1);
+        TbFile tbFile = tbFileMapper.selectByPrimaryKey(63);
         System.out.println(tbFile);
     }
     @Test

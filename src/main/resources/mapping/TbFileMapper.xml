@@ -6,9 +6,11 @@
     <result column="file_abs_path" jdbcType="VARCHAR" property="fileAbsPath" />
     <result column="master_id" jdbcType="VARCHAR" property="masterId" />
     <result column="Resourcetype" jdbcType="VARCHAR" property="resourcetype" />
+    <result column="fileType" jdbcType="VARCHAR" property="fileType" />
+    <result column="describes" jdbcType="VARCHAR" property="describes" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, file_abs_path, master_id, Resourcetype
+    id, file_abs_path, master_id, Resourcetype, fileType, describes
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -22,9 +24,11 @@
   </delete>
   <insert id="insert" parameterType="com.lzs.entity.TbFile">
     insert into tb_file (id, file_abs_path, master_id, 
-      Resourcetype)
+      Resourcetype, fileType, describes
+      )
     values (#{id,jdbcType=INTEGER}, #{fileAbsPath,jdbcType=VARCHAR}, #{masterId,jdbcType=VARCHAR}, 
-      #{resourcetype,jdbcType=VARCHAR})
+      #{resourcetype,jdbcType=VARCHAR}, #{fileType,jdbcType=VARCHAR}, #{describes,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.lzs.entity.TbFile">
     insert into tb_file
@@ -41,6 +45,12 @@
       <if test="resourcetype != null">
         Resourcetype,
       </if>
+      <if test="fileType != null">
+        fileType,
+      </if>
+      <if test="describes != null">
+        describes,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -54,6 +64,12 @@
       </if>
       <if test="resourcetype != null">
         #{resourcetype,jdbcType=VARCHAR},
+      </if>
+      <if test="fileType != null">
+        #{fileType,jdbcType=VARCHAR},
+      </if>
+      <if test="describes != null">
+        #{describes,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -69,6 +85,12 @@
       <if test="resourcetype != null">
         Resourcetype = #{resourcetype,jdbcType=VARCHAR},
       </if>
+      <if test="fileType != null">
+        fileType = #{fileType,jdbcType=VARCHAR},
+      </if>
+      <if test="describes != null">
+        describes = #{describes,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -76,9 +98,12 @@
     update tb_file
     set file_abs_path = #{fileAbsPath,jdbcType=VARCHAR},
       master_id = #{masterId,jdbcType=VARCHAR},
-      Resourcetype = #{resourcetype,jdbcType=VARCHAR}
+      Resourcetype = #{resourcetype,jdbcType=VARCHAR},
+      fileType = #{fileType,jdbcType=VARCHAR},
+      describes = #{describes,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
   <!--  根据用户id查询所属的图片-->
   <select id="selectListByMasterId"  parameterType="java.lang.String" resultMap="BaseResultMap">
     select
@@ -89,6 +114,12 @@
   <select id="selectListByMasterIdAndRestype"  parameterType="java.lang.String" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
-    from tb_file where master_id=#{id} and ResourceType=#{Restype}
+    from tb_file where master_id=#{id} and ResourceType=#{Restype} and fileType=#{fileType}
+  </select>
+  <!--  根据用户id和文件类型查询所属的video-->
+  <select id="selectVideos"  parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_file where master_id=#{id} and fileType=#{fileType}
   </select>
 </mapper>

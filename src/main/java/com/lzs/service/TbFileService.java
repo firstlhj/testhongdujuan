@@ -18,6 +18,7 @@ import java.util.List;
 public interface TbFileService {
 	public void insert(TbFileVO tbFileVo);
 	public TbFile findpath(String id);
-	public List<TbFileVO> findPicture(String id,String Restype);
-	public int manageFiles(String newFileName,Integer  Restype);
+	public List<TbFileVO> findPicture(String id,String Restype,String fileType);
+	public int manageFiles(String newFileName,Integer Restype,String fileType);
+	public List<TbFile> findvideos(String id ,String fileType);
 }

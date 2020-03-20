@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="shortcut icon" href="#"/>
     <link rel="stylesheet" href="../../static/css/swiper.css">
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="../../static/js/swiper.js"></script>
@@ -85,25 +86,48 @@
         #btns{
             text-align: center;
         }
-
+        .describe{
+            width: 596px;
+            height: 45px;
+           // text-align: center;
+            margin-top:300px;
+            /*margin-left:1000px;*/
+            /*vertical-align:middle;*/
+            color: red;
+            /*left:-3px;*/
+            bottom: 0px;
+            /*opacity: 0.1;*/
+            position: absolute;
+            /*right:200px;*/
+            top: 180px;
+        }
+        .desDiv{
+            right:200px;
+            top: 100px;
+        }
 
     </style>
 </head>
 <body>
+<div>
+<!--    <form name="form1"><input class="describe" name="aaa" type="text"></form>-->
 
 <!------------轮播图------------->
 <div class="swiper-container" id="001">
+
     <div id="wrapper" class="swiper-wrapper"></div>
+
+
     <!-- 如果需要分页器 -->
     <div class="swiper-pagination"></div>
     <!-- 如果需要导航按钮 -->
     <div class="swiper-button-prev"></div>
     <div class="swiper-button-next"></div>
     <!-- 如果需要滚动条 -->
-    <div class="swiper-scrollbar"></div>
+<!--    <div class="swiper-scrollbar"></div>-->
 
 </div>
-
+</div>
 <div id="btns">
     <input class="btn" type="button" id="btn1" onclick="btn1()" value="生活"></input>
     <input class="btn" type="button" id="btn2"  onclick="btn2()" value="技能"></input>
@@ -134,7 +158,7 @@
         $('#wrapper').html("");
     };
     function btnall() {
-        window.location.href= '/show';
+        window.location.href= '/tuozhuai';
     }
     function btnhome() {
         window.location.href= '/homepage';
@@ -155,15 +179,25 @@
             if (result.data){
 
                 for(var i=0;i<result.data.length;i++){
-                    // var bb =
-                    // document.getElementById("aaa").value = bb;
+                    // var bb =result.data[i].describes;
+                    // b=parseInt(bb);
+                    // document.getElementById("aaa").value = b;
+                   // $("#aaa").append(bb);
                     var bannerHtml ='<div class="swiper-slide"><img src="'+result.data[i].filePath+'"></a></div>';
+                // bannerHtml+='<div class="desDiv"></div>';
+                    //bannerHtmls+=' <input class="describe" id="aaa" type="text">';
+                   // text.innerText=b;
+
+
                     console.log(bannerHtml)
                     $('.swiper-wrapper').append(bannerHtml)
+                    //$('.describe').append(bannerHtmls)
+
 
                 }
                 //$(".swiper-wrapper").html(bannerHtml);
                 var mySwiper = new Swiper('.swiper-container',{
+
                     // spaceBetween: 30,
                     // centeredSlides: true,
                     autoplay:2000,
@@ -177,6 +211,7 @@
                     pagination: {
                         el: '.swiper-pagination',
                     },
+
                     //pagination: '.swiper-pagination',//轮播下方小圆点
                     paginationClickable: true,//下方小圆点可点击
                     // 如果需要前进后退按钮

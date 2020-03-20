@@ -40,15 +40,16 @@ public class TbFileServiceImpl implements TbFileService {
 
 	};
 
-	public List<TbFileVO> findPicture(String id ,String Restype){
+	public List<TbFileVO> findPicture(String id ,String Restype,String fileType){
 		List<TbFile> tbFiles =
-				tbFileMapper.selectListByMasterIdAndRestype(id,Restype);
+				tbFileMapper.selectListByMasterIdAndRestype(id,Restype,fileType);
 		System.out.println(tbFiles);
 		List<TbFileVO> tbFileVOS = new ArrayList<>();
 		for(TbFile t : tbFiles){
 			TbFileVO tbFileVO = new TbFileVO();
 			String fileAbsPath = t.getFileAbsPath();
 			tbFileVO.setFilePath(fileAbsPath);
+			tbFileVO.setDescribes(t.getDescribes());
 			tbFileVOS.add(tbFileVO);
 		}
 		return tbFileVOS;
@@ -57,10 +58,12 @@ public class TbFileServiceImpl implements TbFileService {
   文件路径保存数据库
  */
 	@Override
-	public int manageFiles(String newFileName,Integer Restype) {
+	public int manageFiles(String newFileName,Integer Restype,String fileType) {
 		TbFile tbFile = new TbFile();
 		//域名或ip拼接虚拟路径，即可外网访问
-		String path="http://47.112.148.238/upload/"+newFileName;
+		//String path="http://47.112.148.238/upload/"+newFileName;
+		//本地
+		String path="http://localhost:8080/upload/"+newFileName;
 		//文件内容存在服务器文件夹
 		System.out.println(path);
 
@@ -68,10 +71,17 @@ public class TbFileServiceImpl implements TbFileService {
 		tbFile.setFileAbsPath(path);
 		tbFile.setMasterId("1");//即用户id
 		tbFile.setResourcetype(String.valueOf(Restype));
+		tbFile.setFileType(fileType);
 		//根据文件路径生成连接url
 		int in = tbFileMapper.insert(tbFile);
 		//保存url到数据库
 		return in;
 
+	}
+
+	@Override
+	public List<TbFile> findvideos(String id, String fileType) {
+		List<TbFile> tbFiles = tbFileMapper.selectVideos(id, fileType);
+		return tbFiles;
 	}
 }

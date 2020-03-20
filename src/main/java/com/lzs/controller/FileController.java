@@ -17,6 +17,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.regex.Pattern;
 
 @CrossOrigin
 @Controller
@@ -30,6 +31,7 @@ public class FileController {
         tbFileService.insert(tbFileVO);
     }
 
+
     @RequestMapping("/findById")
     @ResponseBody
     public SysResult findById(@PathParam("id")String id, Model model){
@@ -41,22 +43,26 @@ public class FileController {
         return SysResult.success(tbFileVO);
 
     }
+    //查询图片分组
     @RequestMapping("/findPictures")
     @ResponseBody
     public SysResult findByPictureList(@PathParam("masterId")String masterId){
-       String id = "1";//用户id
-        List<TbFileVO> pictures = tbFileService.findPicture(id,masterId);
+        String id = "1";//用户id
+        String fileType ="img";
+        List<TbFileVO> pictures = tbFileService.findPicture(id,masterId,fileType);
         System.out.println("显示层"+pictures);
         return SysResult.success(pictures);
     }
-
+    /*
+    单张上传
+     */
     @RequestMapping(value="/upload",method = RequestMethod.POST)
     @ResponseBody
     public String FileUpload(MultipartFile file,Integer bid, TbFileVO tbFileVO) throws IOException {
         /**
          * 上传图片
          */String newFileName = null;
-         System.out.println("传图"+file);
+        System.out.println("传图"+file);
         try {
             //图片上传成功后，将图片的地址写到数据库
             //创建在服务器端的文件上传的路径
@@ -79,8 +85,9 @@ public class FileController {
             file.transferTo(targetFile);
             System.out.println(targetFile);
             tbFileVO.setFilePath(newFileName);//文件名保存到实体类对应属性上);
+            String fileType="";
             //保存图片名
-            tbFileService.manageFiles(newFileName,bid);
+            tbFileService.manageFiles(newFileName,bid,fileType);
         } catch (IllegalStateException e) {
             e.printStackTrace();
             return "失败";
@@ -93,35 +100,44 @@ public class FileController {
 批量图片上传
  */
 
-@RequestMapping("/MultiPictareaddData")
-@ResponseBody
-public Map<String, Object> MultiPictareaddData(MultipartFile[] file, @RequestParam("bid") Integer bid, HttpServletRequest request, HttpServletResponse response) throws IOException {
-    System.out.println("图片类型"+bid);
-    List<String> list = new ArrayList<String>();
-    Map<String,Object> map=new HashMap<String,Object>();
-    if (file != null && file.length > 0) {
-        System.out.println(file.length+"王阳明");
-        for (int i = 0; i < file.length; i++) {
-            MultipartFile filex = file[i];
-            // 保存文件
-            saveFile(request, filex,bid);
-        }
-        map.put("success","ok");
-       // map.put("msg","上传成功");
+    @RequestMapping("/MultiPictareaddData")
+    @ResponseBody
+    public Map<String, Object> MultiPictareaddData(MultipartFile[] file, @RequestParam("bid") Integer bid, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        System.out.println("图片类型"+bid);
+        List<String> list = new ArrayList<String>();
+        Map<String,Object> map=new HashMap<String,Object>();
+        if (file != null && file.length > 0) {
+            System.out.println(file.length+"王阳明");
+            for (int i = 0; i < file.length; i++) {
+                MultipartFile filex = file[i];
+                // 保存文件
+                saveFile(request, filex,bid);
+            }
+            map.put("success","ok");
+            // map.put("msg","上传成功");
 
-    }else{
-        System.out.println(file.length+"：长度就是零");
-       // map.put("msg","上传失败");
+        }else{
+            System.out.println(file.length+"：长度就是零");
+            // map.put("msg","上传失败");
+
+        }
+        return map;
+
 
     }
-    return map;
-
-
-}
     private void saveFile(HttpServletRequest request,MultipartFile file,Integer bid) throws IOException {
-       //获取扩展名
+        //获取扩展名
         String originalFilename = file.getOriginalFilename();
         String name = file.getName();
+        //判断是否是视频
+        String reg = "(mp4|flv|avi|rm|rmvb|wmv|3gp|mpg|mov|mkv)";
+        Pattern p = Pattern.compile(reg);
+        boolean boo = p.matcher(originalFilename).find();
+        String fileType =null;
+        if(boo){
+            fileType="video";
+        }else fileType="img";
+        System.out.println("文件是视频"+boo);
         //重新配不重复的名
         String randomUUID = UUID.randomUUID().toString();
         int index = originalFilename.lastIndexOf(".");
@@ -137,11 +153,22 @@ public Map<String, Object> MultiPictareaddData(MultipartFile[] file, @RequestPar
         }
         String picName = dateStr+"/"+randomUUID + exet;
         filePath += "/" +randomUUID + exet;
-        tbFileService.manageFiles(picName,bid);
+        tbFileService.manageFiles(picName,bid, fileType);
         System.out.println(filePath+"P");
         file.transferTo(new File(filePath));// ctrl+1
-        //保存图片名
+    }
 
-
+    @RequestMapping("/findvideos")
+    @ResponseBody
+    public SysResult findvideos(@PathParam("masterId")String masterId){
+        String fileType="video";
+        List<TbFile> findvideos = tbFileService.findvideos(masterId, fileType);
+        ArrayList<TbFileVO> tbFileVOS = new ArrayList<>();
+        for(TbFile video:findvideos){
+            TbFileVO tbFileVOPath = new TbFileVO();
+            tbFileVOPath.setFilePath(video.getFileAbsPath());
+            tbFileVOS.add(tbFileVOPath);
+        }
+        return SysResult.success(tbFileVOS);
     }
 }

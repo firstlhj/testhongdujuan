@@ -39,7 +39,7 @@ public class PageController {
     @RequestMapping("/{homepage}")
     public String home(@PathVariable String homepage)
     {
-        return "/nomal/"+homepage;
+        return "nomal/"+homepage;
     }
    @RequestMapping("/uploadfiles")
     public String uploadfiles(){
