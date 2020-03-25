@@ -120,13 +120,43 @@
             height: auto;
             width: auto;
         }
+
+        .btn-rabbit{
+            background-color: #fff;
+            color: #111;
+            font-style: italic;
+            border: 1px solid #111;
+            border-radius: 0px !important;
+            transition: all 0.4s ease-in-out;
+            /*margin-bottom: 20px;*/
+            /*margin-right: 200px;*/
+
+            font-family: "Crimson";
+            /*align: center;*/
+            font-size: 13px;
+            /*外框大小*/
+            padding: 3px 63px;
+            /*字体位置*/
+            line-height: 55px;
+            /*自动居中*/
+            /*margin: auto;*/
+
+        }
+        .btn-rabbit:hover{
+            color: #fff;
+            background-color: #bb9e7d;
+            border-color: #bb9e7d;}
+
     </style>
 </head>
 
 <body>
-<input class="btn" type="button" id="btn1" onclick="btn1()" value="首页"></input>
+
+<button id="contact" class="btn-rabbit" onclick="btn1()">返回首页</button>
+<!--<input class="btn" type="button" id="btn1" onclick="btn1()" value="首页"></input>-->
 <!--&lt;!&ndash; 演示区域 &ndash;&gt;-->
 <div class="container">
+
     <ul id="module" class="module-ul">
 <!--        <li class="module-li" draggable="true" data-url="https://i0.hippopx.com/photos/320/918/427/sky-clouds-sunlight-dark-preview.jpg">-->
 <!--            <img class="module-img" src="https://i0.hippopx.com/photos/320/918/427/sky-clouds-sunlight-dark-thumb.jpg" height="96" alt="模块占位图1">-->
@@ -149,8 +179,8 @@
     </div>
 </div>
 <!-- 演示区域 结束 -->
-
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="../../static/assets/js/jquery-3.1.0.min.js"></script>
+<!--<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>-->
 <!--<script src="http://apps.bdimg.com/libs/jquery/1.9.0/jquery.min.js"></script>-->
 <script>
     var moduleDrag = (function() {
@@ -391,19 +421,20 @@
     moduleDrag.init();
 </script>
 
+<!--<EMBED  source="assets/audio/20200325_150243.m4a" width=300 height=45 type=audio/m4a loop="-1" autostart="false" volume="0"></EMBED >-->
 </body>
 <script>
     function btn1() {
         window.location.href="/homepage";
     }
     // function moveAjax() {
-        var id = 1;
+        //var id = 1;
         $.ajax({
-            type: "POST",
+            type: "GET",
             url: "/file/findvideos",
             dataType: "json",
             async: "false",
-            data: {"masterId": id},
+            // data:
         }).done(function (result) {
 
             // bannerHtml+='<div class="swiper-slide"><a href="'+result[i].filePath+'"><img src="'+result[i].banner_image+'"></a></div>';
@@ -415,7 +446,7 @@
                     //动态引入图片
                    // bannerHtml +='<li class="module-li" draggable="true" data-url="' + result.data[i].filePath + '"><img class=  "module-img" src="' + result.data[i].filePath + '" height="96" alt="模块占位图'+[i]+'"></li>'
                     //动态引入视频
-                    bannerHtml +='<li class="module-li" draggable="true" data-url="' + result.data[i].filePath + '"><video controls="controls" autoplay="autoplay"  height="100px"width="100px"><source  class=  "module-img" src="' + result.data[i].filePath + '" type="video/mp4" alt="模块占位图'+[i]+'"></source></video></li>'
+                    bannerHtml +='<li class="module-li" draggable="true" data-url="' + result.data[i].filePath + '"><video controls="controls"   height="100px"width="100px"><source  class=  "module-img" src="' + result.data[i].filePath + '" type="video/mp4" alt="模块占位图'+[i]+'"></source></video></li>'
 
                     console.log(bannerHtml)
                      //$('.module-ul').append(bannerHtml)

@@ -1,9 +1,13 @@
 package com.lzs.controller;
 
 import com.lzs.entity.TbFile;
+import com.lzs.entity.User;
 import com.lzs.service.TbFileService;
+import com.lzs.service.UserService;
 import com.lzs.util.SysResult;
 import com.lzs.vo.TbFileVO;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,6 +29,8 @@ import java.util.regex.Pattern;
 public class FileController {
     @Autowired(required = false)
     private TbFileService tbFileService;
+    @Autowired(required = false)
+    private UserService userService;
 
     @RequestMapping("/insert")
     public void Addbio(@PathParam("TbFileVO") TbFileVO tbFileVO){
@@ -47,7 +53,10 @@ public class FileController {
     @RequestMapping("/findPictures")
     @ResponseBody
     public SysResult findByPictureList(@PathParam("masterId")String masterId){
-        String id = "1";//用户id
+       //获取用户id
+        Subject subject = SecurityUtils.getSubject();
+        User user = (User) subject.getPrincipal();
+        String id = String.valueOf(user.getId());
         String fileType ="img";
         List<TbFileVO> pictures = tbFileService.findPicture(id,masterId,fileType);
         System.out.println("显示层"+pictures);
@@ -160,7 +169,10 @@ public class FileController {
 
     @RequestMapping("/findvideos")
     @ResponseBody
-    public SysResult findvideos(@PathParam("masterId")String masterId){
+    public SysResult findvideos(){
+        Subject subject = SecurityUtils.getSubject();
+        User user = (User) subject.getPrincipal();
+        String masterId =String.valueOf(user.getId());
         String fileType="video";
         List<TbFile> findvideos = tbFileService.findvideos(masterId, fileType);
         ArrayList<TbFileVO> tbFileVOS = new ArrayList<>();

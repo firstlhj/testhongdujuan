@@ -45,11 +45,40 @@
         }
         #btns{
             text-align: center;
+            margin-top:25px;
         }
+
+
+        .btn-rabbit{
+            background-color: #fff;
+            color: #111;
+            font-style: italic;
+            border: 1px solid #111;
+            border-radius: 0px !important;
+            transition: all 0.4s ease-in-out;
+            /*margin-bottom: 20px;*/
+            /*margin-right: 200px;*/
+
+            font-family: "Crimson";
+            align: center;
+            font-size: 13px;
+            /*外框大小*/
+            padding: 0px 50px;
+            /*字体位置*/
+            line-height: 55px;
+            /*自动居中*/
+            margin: auto;
+
+        }
+        .btn-rabbit:hover{
+            color: #fff;
+            background-color: #bb9e7d;
+            border-color: #bb9e7d;}
     </style>
 </head>
 <link rel="shortcut icon" href="#" />
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<!--<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>-->
+<script src="../../static/assets/js/jquery-3.1.0.min.js"></script>
 <body>
 
 <div id="header">
@@ -62,10 +91,18 @@
 <!--    Tokyo<br>-->
 <!--</div>-->
 <div id="btns">
-    <input type="button" class="btn" id="btn1" onclick="btn1()" value="上传"><br>
-    <input type="button" class="btn" id="btn2" onclick="btn2()" value="我的图片"><br>
-    <input type="button" class="btn" id="btn3" onclick="btn3()" value="我的简历"><br>
+<!--    <input type="button" class="btn" id="btn1" onclick="btn1()" value="上传"><br>-->
+<!--    <input type="button" class="btn" id="btn2" onclick="btn2()" value="我的图片"><br>-->
+<!--    <input type="button" class="btn" id="btn3" onclick="btn3()" value="我的简历"><br>-->
+    <div id="about" class="btn btn-rabbit" onclick="btn1()">上传</div><br>
+    <div id="img" class="btn btn-rabbit" onclick="btn2()">图片</div><br>
+    <div id="introduce" class="btn btn-rabbit" onclick="btn3()">简介</div><br>
+    <div id="resume" class="btn btn-rabbit" onclick="btnr()">简历</div><br>
 </div>
+<div class="btn-group-vertical custom_btn animated slideinright">
+
+</div>
+
 
 <div id="section">
     <h2>简介</h2>
@@ -92,7 +129,10 @@
         window.location.href="/ajaxlunbo"
     }
     function btn3() {
-        window.location.href="/jianli"
+        window.location.href="/me"
+    }
+    function btnr() {
+        window.location.href="http://47.112.148.238:8010/resume/index.html"
     }
 </script>
 </html>

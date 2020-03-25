@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+    <link rel="shortcut icon" href="#" />
+</head>
+<body>
+<h1>登录</h1>
+<h2 th:text="${msg}" style="color: red"></h2>
+<form action="login3" method="post">
+    用户名：<input type="text" name="username"><br>
+    密码：&nbsp;&nbsp;&nbsp;<input type="text" name="password"><br>
+    <input type="checkbox" name="rememberMe"/>记住我<br>
+    <input type="submit" value="登录">
+</form>
+</body>
+</html>

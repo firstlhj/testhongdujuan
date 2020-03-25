@@ -12,8 +12,11 @@ package com.lzs.serviceImpl;//
 
 import com.lzs.dao.TbFileMapper;
 import com.lzs.entity.TbFile;
+import com.lzs.entity.User;
 import com.lzs.service.TbFileService;
 import com.lzs.vo.TbFileVO;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -61,15 +64,17 @@ public class TbFileServiceImpl implements TbFileService {
 	public int manageFiles(String newFileName,Integer Restype,String fileType) {
 		TbFile tbFile = new TbFile();
 		//域名或ip拼接虚拟路径，即可外网访问
-		//String path="http://47.112.148.238/upload/"+newFileName;
+		String path="http://47.112.148.238/upload/"+newFileName;
 		//本地
-		String path="http://localhost:8080/upload/"+newFileName;
+		//String path="http://localhost:8080/upload/"+newFileName;
 		//文件内容存在服务器文件夹
 		System.out.println(path);
-
+		Subject subject = SecurityUtils.getSubject();
+		User user = (User) subject.getPrincipal();
+		String masterId =String.valueOf(user.getId());
 		tbFile.setId(null);
 		tbFile.setFileAbsPath(path);
-		tbFile.setMasterId("1");//即用户id
+		tbFile.setMasterId(masterId);//即用户id
 		tbFile.setResourcetype(String.valueOf(Restype));
 		tbFile.setFileType(fileType);
 		//根据文件路径生成连接url
