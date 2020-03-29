@@ -64,9 +64,11 @@ public class TbFileServiceImpl implements TbFileService {
 	public int manageFiles(String newFileName,Integer Restype,String fileType) {
 		TbFile tbFile = new TbFile();
 		//域名或ip拼接虚拟路径，即可外网访问
-		String path="http://47.112.148.238/upload/"+newFileName;
+//		String path="http://47.112.148.238/upload/"+newFileName;
 		//本地
 		//String path="http://localhost:8080/upload/"+newFileName;
+		//docker
+		String path="http://192.168.99.100:83/uploads/"+newFileName;
 		//文件内容存在服务器文件夹
 		System.out.println(path);
 		Subject subject = SecurityUtils.getSubject();

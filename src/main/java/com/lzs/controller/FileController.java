@@ -154,7 +154,9 @@ public class FileController {
         Date date = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd/HH/mm/ss");
         String dateStr = sdf.format(date); // D://uploads//20180824 String
-        String filePath = "C://upload/multilFiles" +"/"+dateStr;
+       // String filePath = "C://upload/multilFiles" +"/"+dateStr;
+        //docker文件目录
+        String filePath = "/home/uploads/uploads" +"/"+dateStr;
         System.out.println("filePath=" + filePath);
         File file2 = new File(filePath);
         if (!file2.exists()) {
